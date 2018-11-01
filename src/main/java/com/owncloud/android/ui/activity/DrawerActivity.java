@@ -913,7 +913,7 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
                         }
                     };
 
-                    DisplayUtils.downloadIcon(this, firstQuota.iconUrl, target, R.drawable.ic_link_grey, size, size);
+                    DisplayUtils.downloadIcon(this, firstQuota.iconUrl, target, R.drawable.ic_link, size, size);
 
                 } else {
                     mQuotaTextLink.setVisibility(View.GONE);
@@ -1058,7 +1058,7 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
                     }
                 };
 
-                DisplayUtils.downloadIcon(this, link.iconUrl, target, R.drawable.ic_link_grey, size, size);
+                DisplayUtils.downloadIcon(this, link.iconUrl, target, R.drawable.ic_link, size, size);
             }
 
             setDrawerMenuItemChecked(mCheckedMenuItem);
@@ -1072,7 +1072,7 @@ public abstract class DrawerActivity extends ToolbarActivity implements DisplayU
             if (drawable != null) {
                 menuItem.setIcon(ThemeUtils.tintDrawable(drawable, greyColor));
             } else {
-                menuItem.setIcon(R.drawable.ic_link_grey);
+                menuItem.setIcon(R.drawable.ic_link);
             }
         }
     }
