@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -54,6 +55,7 @@ import com.owncloud.android.ui.dialog.SortingOrderDialogFragment;
 import com.owncloud.android.ui.fragment.ExtendedListFragment;
 import com.owncloud.android.ui.fragment.LocalFileListFragment;
 import com.owncloud.android.utils.FileSortOrder;
+import com.owncloud.android.utils.FileStorageUtils;
 import com.owncloud.android.utils.ThemeUtils;
 
 import java.io.File;
@@ -220,6 +222,20 @@ public class UploadFilesActivity extends FileActivity implements
         }
 
         checkWritableFolder(mCurrentDir);
+
+        // Storages
+        Log_OC.d("PATH", "Picture: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES));
+        Log_OC.d("PATH", "DCIM: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Log_OC.d("PATH", "Documents: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS));
+        }
+        Log_OC.d("PATH", "Downloads: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS));
+        Log_OC.d("PATH", "Movies: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES));
+        Log_OC.d("PATH", "Music: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC));
+
+        for (String dir : FileStorageUtils.getStorageDirectories(this)) {
+            Log_OC.d("PATH", "sdcards: " + dir);
+        }
 
         Log_OC.d(TAG, "onCreate() end");
     }
