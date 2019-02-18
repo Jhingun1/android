@@ -47,10 +47,12 @@ import com.owncloud.android.R;
 import com.owncloud.android.db.PreferenceManager;
 import com.owncloud.android.files.services.FileUploader;
 import com.owncloud.android.lib.common.utils.Log_OC;
+import com.owncloud.android.ui.adapter.StoragePathAdapter;
 import com.owncloud.android.ui.asynctasks.CheckAvailableSpaceTask;
 import com.owncloud.android.ui.dialog.ConfirmationDialogFragment;
 import com.owncloud.android.ui.dialog.ConfirmationDialogFragment.ConfirmationDialogFragmentListener;
 import com.owncloud.android.ui.dialog.IndeterminateProgressDialog;
+import com.owncloud.android.ui.dialog.LocalStoragePathPickerDialogFragment;
 import com.owncloud.android.ui.dialog.SortingOrderDialogFragment;
 import com.owncloud.android.ui.fragment.ExtendedListFragment;
 import com.owncloud.android.ui.fragment.LocalFileListFragment;
@@ -80,7 +82,7 @@ import androidx.fragment.app.FragmentTransaction;
 public class UploadFilesActivity extends FileActivity implements
     LocalFileListFragment.ContainerActivity, ActionBar.OnNavigationListener,
     OnClickListener, ConfirmationDialogFragmentListener, SortingOrderDialogFragment.OnSortingOrderListener,
-    CheckAvailableSpaceTask.CheckAvailableSpaceListener {
+    CheckAvailableSpaceTask.CheckAvailableSpaceListener, StoragePathAdapter.StoragePathAdapterListener {
 
     private static final String SORT_ORDER_DIALOG_TAG = "SORT_ORDER_DIALOG";
     private static final int SINGLE_DIR = 1;
@@ -322,6 +324,13 @@ public class UploadFilesActivity extends FileActivity implements
                 }
                 break;
             }
+            case R.id.action_choose_storage_path: {
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.addToBackStack(null);
+                LocalStoragePathPickerDialogFragment dialog = LocalStoragePathPickerDialogFragment.newInstance();
+                dialog.show(ft, LocalStoragePathPickerDialogFragment.LOCAL_STORAGE_PATH_PICKER_FRAGMENT);
+            }
             default:
                 retval = super.onOptionsItemSelected(item);
                 break;
@@ -501,6 +510,16 @@ public class UploadFilesActivity extends FileActivity implements
             );
             dialog.setOnConfirmationListener(this);
             dialog.show(getSupportFragmentManager(), QUERY_TO_MOVE_DIALOG_TAG);
+        }
+    }
+
+    @Override
+    public void chosenPath(String path) {
+        // TODO implement navigation to path
+        if(getListOfFilesFragment() instanceof LocalFileListFragment) {
+            File file = new File(path);
+            ((LocalFileListFragment) getListOfFilesFragment()).listDirectory(file);
+            onDirectoryClick(file);
         }
     }
 
