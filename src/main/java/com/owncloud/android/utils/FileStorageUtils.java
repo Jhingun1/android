@@ -439,6 +439,8 @@ public final class FileStorageUtils {
      * Taken from https://github.com/TeamAmaze/AmazeFileManager/blob/54652548223d151f089bdc6fc868b13ca5ab20a9/app/src
      * /main/java/com/amaze/filemanager/activities/MainActivity.java#L620 on 14.02.2019
      */
+    @SuppressFBWarnings(value = "DMI_HARDCODED_ABSOLUTE_FILENAME", 
+        justification = "Default Android fallback storage path")
     public static ArrayList<String> getStorageDirectories(Activity activity) {
         // Final set of paths
         final ArrayList<String> rv = new ArrayList<>();

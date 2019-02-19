@@ -863,7 +863,7 @@
     <string name="remove_push_notification">Remove</string>
     <string name="new_notification">New Notification</string>
     <string name="storage_choose_location">Choose storage location</string>
-    <string name="internal_storage">Internal storage</string>
+    <string name="storage_internal_storage">Internal storage</string>
     <string name="storage_camera">Camera</string>
     <string name="storage_pictures">Pictures</string>
     <string name="storage_movies">Movies</string>

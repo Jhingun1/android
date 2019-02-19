@@ -60,7 +60,7 @@ public class LocalStoragePathPickerDialogFragment extends DialogFragment
     private Unbinder unbinder;
 
     @BindView(R.id.storage_path_recycler_view)
-    RecyclerView recylerView;
+    RecyclerView recyclerView;
 
     public static LocalStoragePathPickerDialogFragment newInstance() {
         return new LocalStoragePathPickerDialogFragment();
@@ -99,8 +99,8 @@ public class LocalStoragePathPickerDialogFragment extends DialogFragment
         StoragePathAdapter adapter = new StoragePathAdapter(getPathList(), this);
 
         unbinder = ButterKnife.bind(this, view);
-        recylerView.setAdapter(adapter);
-        recylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Build the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
@@ -155,7 +155,7 @@ public class LocalStoragePathPickerDialogFragment extends DialogFragment
                                                           Environment.getExternalStoragePublicDirectory(
                                                               Environment.DIRECTORY_MUSIC).getAbsolutePath()));
 
-        String sdCard = getString(R.string.internal_storage);
+        String sdCard = getString(R.string.storage_internal_storage);
         for (String dir : FileStorageUtils.getStorageDirectories(requireActivity())) {
             if ("/storage/emulated/legacy".equals(dir) || "/storage/emulated/0".equals(dir)
                 || "/mnt/sdcard".equals(dir)) {
