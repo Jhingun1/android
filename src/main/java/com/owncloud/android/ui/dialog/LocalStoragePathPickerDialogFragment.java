@@ -66,6 +66,17 @@ public class LocalStoragePathPickerDialogFragment extends DialogFragment
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        int color = ThemeUtils.primaryAccentColor(getContext());
+
+        AlertDialog alertDialog = (AlertDialog) getDialog();
+
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(color);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -94,7 +105,7 @@ public class LocalStoragePathPickerDialogFragment extends DialogFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setView(view)
             .setNegativeButton(R.string.common_cancel, this)
-            .setTitle(ThemeUtils.getColoredTitle(getResources().getString(R.string.send_note),
+            .setTitle(ThemeUtils.getColoredTitle(getResources().getString(R.string.storage_choose_location),
                 accentColor));
 
         return builder.create();
@@ -116,18 +127,18 @@ public class LocalStoragePathPickerDialogFragment extends DialogFragment
 
     private List<StoragePathItem> getPathList() {
         List<StoragePathItem> storagePathItems = new ArrayList<>();
-        // TODO: Add translatable names to the paths
-        storagePathItems.add(new StoragePathItem(R.drawable.ic_image_grey600, "Picture", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()));
-        storagePathItems.add(new StoragePathItem(R.drawable.ic_image_grey600, "DCIM", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()));
+        storagePathItems.add(new StoragePathItem(R.drawable.ic_image_grey600, getString(R.string.storage_pictures), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()));
+        storagePathItems.add(new StoragePathItem(R.drawable.ic_camera, getString(R.string.storage_camera), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            storagePathItems.add(new StoragePathItem(R.drawable.ic_image_grey600, "Documents", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()));
+            storagePathItems.add(new StoragePathItem(R.drawable.ic_document_grey600, getString(R.string.storage_documents), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()));
         }
-        storagePathItems.add(new StoragePathItem(R.drawable.ic_image_grey600, "Downloads", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()));
-        storagePathItems.add(new StoragePathItem(R.drawable.ic_movie_grey600, "Movies", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath()));
-        storagePathItems.add(new StoragePathItem(R.drawable.ic_image_grey600, "Music", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getAbsolutePath()));
+        storagePathItems.add(new StoragePathItem(R.drawable.ic_download_grey600, getString(R.string.storage_downloads), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()));
+        storagePathItems.add(new StoragePathItem(R.drawable.ic_movie_grey600, getString(R.string.storage_movies), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath()));
+        storagePathItems.add(new StoragePathItem(R.drawable.ic_music_grey600, getString(R.string.storage_music), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getAbsolutePath()));
 
+        String sdCard = getString(R.string.storage_sd_card);
         for (String dir : FileStorageUtils.getStorageDirectories(requireActivity())) {
-            storagePathItems.add(new StoragePathItem(R.drawable.ic_sd_grey600, "Sd card", dir));
+            storagePathItems.add(new StoragePathItem(R.drawable.ic_sd_grey600, sdCard, dir));
         }
 
         return storagePathItems;

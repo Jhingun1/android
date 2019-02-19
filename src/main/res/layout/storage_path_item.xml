@@ -22,35 +22,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:paddingTop="@dimen/standard_half_padding"
+    android:paddingBottom="@dimen/standard_half_padding"
     android:weightSum="1"
     tools:ignore="UseCompoundDrawables">
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@color/white"
-            android:paddingBottom="@dimen/standard_half_padding"
-            android:paddingLeft="@dimen/standard_padding"
-            android:paddingStart="@dimen/standard_padding"
-            android:paddingRight="@dimen/standard_half_padding"
-            android:paddingEnd="@dimen/standard_half_padding"
-            android:paddingTop="@dimen/standard_half_padding"
-            android:contentDescription="@string/user_icon"
-            android:src="@drawable/ic_user" />
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@color/white"
+        android:contentDescription="@string/user_icon"
+        android:paddingStart="@dimen/standard_padding"
+        android:paddingLeft="@dimen/standard_padding"
+        android:paddingEnd="@dimen/standard_padding"
+        android:paddingRight="@dimen/standard_padding"
+        android:src="@drawable/ic_user" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/standard_margin"
-            android:layout_marginRight="@dimen/standard_margin"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textSize="@dimen/file_details_username_text_size"
-            tools:text="DCIM" />
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/standard_margin"
+        android:layout_marginRight="@dimen/standard_margin"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/file_details_username_text_size"
+        tools:text="DCIM" />
 </LinearLayout>
