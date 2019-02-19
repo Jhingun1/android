@@ -35,6 +35,7 @@ import com.owncloud.android.ui.adapter.StoragePathItem;
 import com.owncloud.android.utils.FileStorageUtils;
 import com.owncloud.android.utils.ThemeUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,21 +128,51 @@ public class LocalStoragePathPickerDialogFragment extends DialogFragment
 
     private List<StoragePathItem> getPathList() {
         List<StoragePathItem> storagePathItems = new ArrayList<>();
-        storagePathItems.add(new StoragePathItem(R.drawable.ic_image_grey600, getString(R.string.storage_pictures), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath()));
-        storagePathItems.add(new StoragePathItem(R.drawable.ic_camera, getString(R.string.storage_camera), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            storagePathItems.add(new StoragePathItem(R.drawable.ic_document_grey600, getString(R.string.storage_documents), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()));
-        }
-        storagePathItems.add(new StoragePathItem(R.drawable.ic_download_grey600, getString(R.string.storage_downloads), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()));
-        storagePathItems.add(new StoragePathItem(R.drawable.ic_movie_grey600, getString(R.string.storage_movies), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath()));
-        storagePathItems.add(new StoragePathItem(R.drawable.ic_music_grey600, getString(R.string.storage_music), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getAbsolutePath()));
 
-        String sdCard = getString(R.string.storage_sd_card);
+        addIfExists(storagePathItems, new StoragePathItem(R.drawable.ic_image_grey600,
+                                                          getString(R.string.storage_pictures),
+                                                          Environment.getExternalStoragePublicDirectory(
+                                                              Environment.DIRECTORY_PICTURES).getAbsolutePath()));
+        addIfExists(storagePathItems, new StoragePathItem(R.drawable.ic_camera, getString(R.string.storage_camera),
+                                                          Environment.getExternalStoragePublicDirectory(
+                                                              Environment.DIRECTORY_DCIM).getAbsolutePath()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            addIfExists(storagePathItems, new StoragePathItem(R.drawable.ic_document_grey600,
+                                                              getString(R.string.storage_documents),
+                                                              Environment.getExternalStoragePublicDirectory(
+                                                                  Environment.DIRECTORY_DOCUMENTS).getAbsolutePath()));
+        }
+        addIfExists(storagePathItems, new StoragePathItem(R.drawable.ic_download_grey600,
+                                                          getString(R.string.storage_downloads),
+                                                          Environment.getExternalStoragePublicDirectory(
+                                                              Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()));
+        addIfExists(storagePathItems, new StoragePathItem(R.drawable.ic_movie_grey600,
+                                                          getString(R.string.storage_movies),
+                                                          Environment.getExternalStoragePublicDirectory(
+                                                              Environment.DIRECTORY_MOVIES).getAbsolutePath()));
+        addIfExists(storagePathItems, new StoragePathItem(R.drawable.ic_music_grey600,
+                                                          getString(R.string.storage_music),
+                                                          Environment.getExternalStoragePublicDirectory(
+                                                              Environment.DIRECTORY_MUSIC).getAbsolutePath()));
+
+        String sdCard = getString(R.string.internal_storage);
         for (String dir : FileStorageUtils.getStorageDirectories(requireActivity())) {
-            storagePathItems.add(new StoragePathItem(R.drawable.ic_sd_grey600, sdCard, dir));
+            if ("/storage/emulated/legacy".equals(dir) || "/storage/emulated/0".equals(dir)
+                || "/mnt/sdcard".equals(dir)) {
+                addIfExists(storagePathItems, new StoragePathItem(R.drawable.ic_sd_grey600, sdCard, dir));
+            } else {
+                addIfExists(storagePathItems, new StoragePathItem(R.drawable.ic_sd_grey600, new File(dir).getName(), dir));
+            }
         }
 
         return storagePathItems;
+    }
+
+    private void addIfExists(List<StoragePathItem> storagePathItems, StoragePathItem item) {
+        File path = new File(item.getPath());
+        if (path.exists() && path.canRead()) {
+            storagePathItems.add(item);
+        }
     }
 
     @Override
