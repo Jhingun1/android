@@ -441,9 +441,9 @@ public final class FileStorageUtils {
      */
     @SuppressFBWarnings(value = "DMI_HARDCODED_ABSOLUTE_FILENAME", 
         justification = "Default Android fallback storage path")
-    public static ArrayList<String> getStorageDirectories(Activity activity) {
+    public static List<String> getStorageDirectories(Activity activity) {
         // Final set of paths
-        final ArrayList<String> rv = new ArrayList<>();
+        final List<String> rv = new ArrayList<>();
         // Primary physical SD-CARD (not emulated)
         final String rawExternalStorage = System.getenv("EXTERNAL_STORAGE");
         // All Secondary SD-CARDs (all exclude primary) separated by ":"
@@ -500,10 +500,12 @@ public final class FileStorageUtils {
         }
         if (SDK_INT >= Build.VERSION_CODES.KITKAT) {
             String strings[] = getExtSdCardPathsForActivity(activity);
+            File f;
             for (String s : strings) {
-                File f = new File(s);
-                if (!rv.contains(s) && canListFiles(f))
+                f = new File(s);
+                if (!rv.contains(s) && canListFiles(f)) {
                     rv.add(s);
+                }
             }
         }
 

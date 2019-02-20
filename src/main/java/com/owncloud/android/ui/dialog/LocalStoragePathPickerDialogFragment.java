@@ -37,7 +37,9 @@ import com.owncloud.android.utils.ThemeUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,6 +58,14 @@ public class LocalStoragePathPickerDialogFragment extends DialogFragment
     implements DialogInterface.OnClickListener, StoragePathAdapter.StoragePathAdapterListener {
 
     public static final String LOCAL_STORAGE_PATH_PICKER_FRAGMENT = "LOCAL_STORAGE_PATH_PICKER_FRAGMENT";
+
+    private static Set<String> internalStoragePaths = new HashSet<>();
+
+    static {
+        internalStoragePaths.add("/storage/emulated/legacy");
+        internalStoragePaths.add("/storage/emulated/0");
+        internalStoragePaths.add("/mnt/sdcard");
+    }
 
     private Unbinder unbinder;
 
@@ -157,8 +167,7 @@ public class LocalStoragePathPickerDialogFragment extends DialogFragment
 
         String sdCard = getString(R.string.storage_internal_storage);
         for (String dir : FileStorageUtils.getStorageDirectories(requireActivity())) {
-            if ("/storage/emulated/legacy".equals(dir) || "/storage/emulated/0".equals(dir)
-                || "/mnt/sdcard".equals(dir)) {
+            if (internalStoragePaths.contains(dir)) {
                 addIfExists(storagePathItems, new StoragePathItem(R.drawable.ic_sd_grey600, sdCard, dir));
             } else {
                 addIfExists(storagePathItems, new StoragePathItem(R.drawable.ic_sd_grey600, new File(dir).getName(), dir));
