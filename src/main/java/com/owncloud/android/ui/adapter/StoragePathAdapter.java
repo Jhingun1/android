@@ -2,7 +2,7 @@
  * Nextcloud Android client application
  *
  * @author Andy Scherzinger
- * Copyright (C) 2018 Andy Scherzinger
+ * Copyright (C) 2019 Andy Scherzinger
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
