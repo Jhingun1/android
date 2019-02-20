@@ -154,12 +154,7 @@ public class UploadFilesActivity extends FileActivity implements
 
         // Drop-down navigation
         mDirectories = new CustomArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item);
-        File currDir = mCurrentDir;
-        while(currDir != null && currDir.getParentFile() != null) {
-            mDirectories.add(currDir.getName());
-            currDir = currDir.getParentFile();
-        }
-        mDirectories.add(File.separator);
+        fillDirectoryDropdown();
 
         // Inflate and set the layout view
         setContentView(R.layout.upload_files_layout);
@@ -224,6 +219,15 @@ public class UploadFilesActivity extends FileActivity implements
         checkWritableFolder(mCurrentDir);
 
         Log_OC.d(TAG, "onCreate() end");
+    }
+
+    private void fillDirectoryDropdown() {
+        File currDir = mCurrentDir;
+        while(currDir != null && currDir.getParentFile() != null) {
+            mDirectories.add(currDir.getName());
+            currDir = currDir.getParentFile();
+        }
+        mDirectories.add(File.separator);
     }
 
     /**
@@ -499,11 +503,15 @@ public class UploadFilesActivity extends FileActivity implements
 
     @Override
     public void chosenPath(String path) {
-        // TODO implement navigation to path
         if(getListOfFilesFragment() instanceof LocalFileListFragment) {
             File file = new File(path);
             ((LocalFileListFragment) getListOfFilesFragment()).listDirectory(file);
             onDirectoryClick(file);
+
+            mCurrentDir = new File(path);
+            mDirectories.clear();
+
+            fillDirectoryDropdown();
         }
     }
 
